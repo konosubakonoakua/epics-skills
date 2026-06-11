@@ -1,6 +1,8 @@
-# OpenCode Skills for EPICS
+# EPICS Skills for AI Coding Assistants
 
-A collection of [OpenCode](https://opencode.ai) skills for EPICS (Experimental Physics and Industrial Control System) development. These skills provide the AI assistant with detailed, accurate reference material for writing EPICS code.
+A collection of skills for EPICS (Experimental Physics and Industrial Control System) development. These skills provide AI coding assistants with detailed, accurate reference material for writing EPICS code.
+
+Primary support for **Claude Code**. Also compatible with OpenCode, Gemini CLI, and Codex CLI.
 
 ## Available Skills
 
@@ -35,48 +37,114 @@ Note: The AeroScript skills cover Aerotech controller programming, which is sepa
 
 ## Installation
 
-Clone this repository into your OpenCode skills directory:
+### Quick Install (All Platforms)
 
 ```bash
-git clone git@git.aps.anl.gov:kpetersn/opencode-skills.git ~/.config/opencode/skills
+./install.sh claude
 ```
 
-If the `~/.config/opencode/skills` directory already exists, clone to a temporary location and copy:
+This installs all skills to the default Claude Code skills directory. See below for platform-specific options.
+
+### Install Script Usage
 
 ```bash
-git clone git@git.aps.anl.gov:kpetersn/opencode-skills.git /tmp/opencode-skills
-cp -r /tmp/opencode-skills/*/ ~/.config/opencode/skills/
-rm -rf /tmp/opencode-skills
+./install.sh [options] <target>
 ```
 
-Or, if you want to manage the skills directory as the git repo itself:
+**Targets:** `claude`, `opencode`, `gemini`, `codex`, `all`
+
+**Options:**
+
+| Option | Description |
+|--------|-------------|
+| `--global` | Install to user-level directory (default) |
+| `--project <path>` | Install to project-local directory |
+| `--copy` | Copy skills (default; safe, no git dependency needed) |
+| `--symlink` | Symlink skills directory (updates with `git pull`) |
+| `--clone` | Clone repo as skills directory (git-managed) |
+
+**Examples:**
 
 ```bash
-rm -rf ~/.config/opencode/skills   # Remove existing (back up first if needed)
-git clone git@git.aps.anl.gov:kpetersn/opencode-skills.git ~/.config/opencode/skills
+# Claude Code (default, recommended)
+./install.sh claude
+
+# OpenCode
+./install.sh opencode
+
+# Specific project only
+./install.sh --project /path/to/my/project claude
+
+# Install to all supported tools
+./install.sh all
 ```
+
+### Manual Installation by Platform
+
+#### Claude Code
+
+User-level (available in all projects):
+```bash
+mkdir -p ~/.claude/skills
+cp -r */ ~/.claude/skills/
+```
+
+Project-local (available in one project):
+```bash
+mkdir -p /path/to/project/.claude/skills
+cp -r */ /path/to/project/.claude/skills/
+```
+
+Restart Claude Code (`/exit` then relaunch) after installation.
+
+#### OpenCode
+
+```bash
+mkdir -p ~/.config/opencode/skills
+cp -r */ ~/.config/opencode/skills/
+```
+
+Or manage the directory as the git repo itself:
+```bash
+rm -rf ~/.config/opencode/skills
+git clone git@github.com:your-org/epics-skills.git ~/.config/opencode/skills
+```
+
+Restart OpenCode after installation.
+
+#### Gemini CLI
+
+```bash
+mkdir -p ~/.gemini/skills
+cp -r */ ~/.gemini/skills/
+```
+
+Restart Gemini CLI after installation.
+
+#### Codex CLI
+
+```bash
+mkdir -p ~/.codex/skills
+cp -r */ ~/.codex/skills/
+```
+
+Restart Codex CLI after installation.
 
 ## Verification
 
-After installation, restart OpenCode. The skills should appear in the available skills list. You can verify by checking for the skill directories:
+After installation, restart the AI tool and verify skills are detected:
 
+**Claude Code:** Skills appear in the available skills list. Use `/skill-list` (if available) or check:
+```bash
+ls ~/.claude/skills/*/SKILL.md
+```
+
+**OpenCode:** Skills appear in the available skills list:
 ```bash
 ls ~/.config/opencode/skills/*/SKILL.md
 ```
 
-Each skill is activated automatically when OpenCode detects a task matching the skill's description.
-
-## Project-Local Installation
-
-Skills can also be installed into a specific project's `.opencode/skills/` directory to make them available only within that project:
-
-```bash
-cd /path/to/my/project
-mkdir -p .opencode/skills
-git clone git@git.aps.anl.gov:kpetersn/opencode-skills.git /tmp/opencode-skills
-cp -r /tmp/opencode-skills/*/ .opencode/skills/
-rm -rf /tmp/opencode-skills
-```
+Each skill is activated automatically when the AI assistant detects a task matching the skill's description.
 
 ## Sources
 
